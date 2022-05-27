@@ -1,7 +1,7 @@
 require "sinatra"
-require_relative "./stats.rb"
+require_relative "./content.rb"
 
 get "/" do
-  "CPU usage: #{cpu_usage.to_s}%\nSystem time: #{Time.now.to_s}\n"
+  get_plaintext_stats
 end
 
