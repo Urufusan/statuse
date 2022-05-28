@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset = "utf-8" />
+    <title>
+      System Stats
+    </title>
+  </head>
+
+  <body>
+    <ul>
+      <% get_plaintext_stats.each_line do |line| %>
+        <li><%= line %></li>
+      <% end %>
+    </ul>
+  </body>
+</html>
+
