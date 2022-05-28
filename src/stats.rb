@@ -8,8 +8,9 @@ module CPU
     end
   end
 
+  # Get info about CPU from /proc/cpuinfo. This assumes all processors are the same.
   info = {
-    "processors": 0
+    processors: 0
   }
   File.read("/proc/cpuinfo").each_line do |line|
     key, val = line.split ":"
@@ -27,7 +28,24 @@ module CPU
     info[key] = val unless info[key]
   end
 
-  INFO = info # Fields in here are device specific
+  INFO = info
   module_function :usage
+end
+
+module OS
+  def processes
+    Dir.entries("/proc").select do |f| f.to_i.to_s == f.to_s end.length
+  end
+  
+  name = ""
+  File.read("/etc/os-release").each_line do |line|
+    key, val = line.split "="
+    next unless key == "NAME"
+    name = val.split("\"")[1]
+    break
+  end
+
+  NAME = name
+  module_function :processes
 end
 
