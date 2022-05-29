@@ -1,19 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset = "utf-8" />
+    <link rel = "stylesheet" type = "text/css" href = "style.css" />
     <title>
       System Stats
     </title>
   </head>
 
   <body>
-    <ul>
-      <% get_plaintext_stats.each_line do |line| %>
-        <li><%= line %></li>
-      <% end %>
-    </ul>
+    <div align = "center">
+      <table>
+        <tbody>
+          <% get_plaintext_stats.each_line do |line| %>
+            <tr>
+              <td>
+                <%= line.gsub ": ", "</td><td>" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </body>
 </html>
 
