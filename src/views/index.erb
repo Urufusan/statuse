@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset = "utf-8" />
-    <link rel = "icon" type = "image/x-icon" href = "favicon.ico" />
-    <link rel = "stylesheet" type = "text/css" href = "style.css" />
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <title>
       System Stats
     </title>
   </head>
 
   <body>
-    <div align = "center">
+    <div align="center">
       <table>
         <tbody>
-          <% get_plaintext_stats.each_line do |line| %>
+          <% Stats.plaintext.each_line do |line| %>
             <tr>
               <td>
-                <%= line.gsub ": ", "</td><td>" %>
+                <%= line.gsub(": ", "</td><td>") %>
               </td>
             </tr>
           <% end %>
@@ -25,4 +25,3 @@
     </div>
   </body>
 </html>
-

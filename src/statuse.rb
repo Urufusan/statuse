@@ -1,11 +1,6 @@
-require "sinatra"
-require_relative "./content.rb"
+require("sinatra")
+require_relative("stats")
 
-get "/", :agent => /^curl/ do
-  get_plaintext_stats
-end
+get("/", agent: /^curl/, &Stats.method(:plaintext))
 
-get "/" do
-  erb :index
-end
-
+get("/") { erb :index }
