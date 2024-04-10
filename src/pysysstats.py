@@ -15,6 +15,8 @@
 
 import os
 import time
+import platform
+import psutil
 
 
 class CPU:
@@ -77,12 +79,15 @@ class Stats:
         cpu_info = CPU.get_info()
         cpu_usage = CPU.usage()
         board_name = OS.get_board()
-        return f"""OS: {os_name}
-CPU: {cpu_info.get('model_name', 'Unknown')}
+        ram_data = (round(psutil.virtual_memory().total / (1024 ** 3), 2), round(psutil.virtual_memory().used / (1024 ** 3), 2))
+        return f"""Hostname: {platform.node()}
+OS: {os_name} {platform.release()}
+CPU: {cpu_info.get('model_name', 'Unknown')} ({platform.machine()})
 Model: {board_name}
 Processors: {cpu_info.get('processors', 0)}
 Processes: {OS.processes()}
 CPU usage: {"{:.2f}".format(cpu_usage) if cpu_usage is not None else 'Unknown'}%
+RAM usage: {ram_data[1]}GB / {ram_data[0]}GB ({int((ram_data[1]/ram_data[0])*100)}%)
 System time: {time.strftime("%Y-%m-%d %H:%M:%S")}"""
 
 

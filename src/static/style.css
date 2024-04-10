@@ -1,4 +1,7 @@
+
+
 body {
+  font-family: "Cascadia Mono", "Consolas", "Lucida Console", "Courier New", monospace;
   background-color: #252033;
   color: #c2bbcc;
 }
@@ -12,7 +15,7 @@ tr {
 }
 
 td {
-  font-size: 1.5em;
+  font-size: 1.7em;
   padding: 5px;
 }
 

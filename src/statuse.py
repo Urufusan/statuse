@@ -21,10 +21,10 @@ app = Flask(__name__)
 @app.route("/", methods=["GET"])
 def index():
     user_agent = request.headers.get("User-Agent", "")
-    if "curl" in user_agent:
+    if "curl" in user_agent or "wget" in user_agent:
         return Stats.plaintext()
     else:
-        return render_template("index.html")
+        return render_template("index.html", stats_plaintext=Stats.plaintext(), enumerate=enumerate)
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(host="0.0.0.0", port="8008", debug=False)
