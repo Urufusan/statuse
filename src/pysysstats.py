@@ -66,9 +66,15 @@ class OS:
 
     @staticmethod
     def get_board():
+        _base_board_name = ""
         try:
+            with open("/sys/devices/virtual/dmi/id/sys_vendor", "r") as board_name:
+                _base_board_name += board_name.read().strip()
             with open("/sys/devices/virtual/dmi/id/product_family", "r") as board_name:
-                return board_name.read().strip()
+                _base_board_name += " " + board_name.read().strip()
+            with open("/sys/devices/virtual/dmi/id/product_name", "r") as board_name:
+                _base_board_name += " " + board_name.read().strip()
+            return _base_board_name
         except:
             return "Unknown"
 
