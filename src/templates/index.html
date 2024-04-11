@@ -1,45 +1,65 @@
-<!--
- Copyright (C) 2024 Urufusan
- 
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU Affero General Public License as
- published by the Free Software Foundation, either version 3 of the
- License, or (at your option) any later version.
- 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Affero General Public License for more details.
- 
- You should have received a copy of the GNU Affero General Public License
- along with this program.  If not, see <http://www.gnu.org/licenses/>.
--->
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <!-- <link rel="icon" type="image/x-icon" href="favicon.ico" /> -->
-    <link rel="stylesheet" type="text/css" href="/static/style.css" />
-    <!-- <link rel="stylesheet" type="text/css" href="/static/progbar.css" /> -->
-    <title>
-      System Stats
-    </title>
-  </head>
 
-  <body>
-    <div align="center">
-      <table>
-        <tbody>
-          {% for line in stats_plaintext.splitlines() %}
-            <tr>
-              <td>
-                {{ line }}
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+<head>
+  <meta charset="utf-8" />
+  <!-- <link rel="icon" type="image/x-icon" href="favicon.ico" /> -->
+  <link rel="stylesheet" type="text/css" href="/static/style.css" />
+  <!-- <link rel="stylesheet" type="text/css" href="/static/progbar.css" /> -->
+  <title>
+    System Stats
+  </title>
+  <script>
+    var tempError
+    function CTXReplace() {
+      var scrollPosition = window.scrollY;
+      fetch(window.location.href)
+        .then(response => response.text())
+        // .then(console.log("Refresh..."))
+        .then(data => {
+          document.documentElement.innerHTML = data;
+        })
+        .then(window.scrollTo(0, scrollPosition))
+        .catch(error => console.error('Error fetching content:', tempError = error));
+      if (typeof tempError === 'undefined') {
+        setTimeout(CTXReplace, 2000);
+      }
+      else {
+        console.error("Got error in loop ::", tempError)
+        document.getElementById("overlay").hidden = false;
+      }
+    }
+    document.addEventListener("DOMContentLoaded", CTXReplace);
+  </script>
+</head>
+
+<body>
+  <div id="overlay" hidden>
+    <div style="display: inline-grid; grid-template-columns: auto auto auto;">
+      <!-- <img style='transform: scaleX(-1); width: 150px; vertical-align:middle; padding: 10px;' src='/static/ohno.png'> -->
+      <h1 id="errtext" style='display:inline; text-align: center; margin-top: min(calc(16vw - 8vh), 10vh);'><u>Not
+            connected to the server!</u></h1>
     </div>
-  </body>
+  </div>
+  <div align="center">
+    <svg fill="#c2bbcc" width="800px" height="800px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"
+      style="height: 10vh; margin-top: 5vh; position: absolute">
+      <path
+        d="M6.401 12.802v12.797h12.797v6.401h-19.198v-19.198zM32 0v32h-9.599v-6.401h3.198v-19.198h-19.198v3.198h-6.401v-9.599z" />
+    </svg>
+    <br>
+    <table>
+      <tbody>
+        {% for line in stats_plaintext.splitlines() %}
+        <tr>
+          <td>
+            {{ line }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+
 </html>
