@@ -22,7 +22,7 @@ app = Flask(__name__)
 def index():
     user_agent = request.headers.get("User-Agent", "")
     if "curl" in user_agent or "wget" in user_agent.lower():
-        return Stats.plaintext()
+        return "\n" + Stats.plaintext() + "\n"
     else:
         return render_template("index.html", stats_obj=Stats)
 
