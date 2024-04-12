@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <!-- <link rel="icon" type="image/x-icon" href="favicon.ico" /> -->
   <link rel="stylesheet" type="text/css" href="/static/style.css" />
-  <!-- <link rel="stylesheet" type="text/css" href="/static/progbar.css" /> -->
+  <link rel="stylesheet" type="text/css" href="/static/progbar.css" />
   <title>
     System Stats
   </title>
@@ -50,10 +50,14 @@
     <br>
     <table>
       <tbody>
-        {% for line in stats_plaintext.splitlines() %}
+        {% for line in stats_obj.specialformat() %}
         <tr>
           <td>
-            {{ line }}
+            {{ line[0] }}
+            {% if line[1] == 'percentage'%}
+            <progress value="{{ line[2] }}" max="100" style="--value: {{ line[2] }}; --max: 100;"></progress>
+            {% endif %}
+
           </td>
         </tr>
         {% endfor %}

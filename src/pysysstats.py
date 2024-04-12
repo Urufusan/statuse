@@ -17,6 +17,20 @@ import os
 import time
 import platform
 import psutil
+import re
+
+_prcentage_pattern = re.compile(r'(\d+\.\d+)%')
+
+def extract_percentage(_text):
+    _p_match = _prcentage_pattern.search(_text)
+    if _p_match:
+        return _p_match.group(1)
+    else:
+        return "0.0"
+
+# Test cases
+# print(extract_percentage("CPU Usage: 67.43%"))  # Output: 67.43
+# print(extract_percentage("RAM Usage: 16.1/32GB (50.1%)"))  # Output: 50.1
 
 
 class CPU:
@@ -93,9 +107,21 @@ Model: {board_name}
 Processors: {cpu_info.get('processors', 0)}
 Processes: {OS.processes()}
 CPU usage: {"{:.2f}".format(cpu_usage) if cpu_usage is not None else 'Unknown'}%
-RAM usage: {ram_data[1]}GB / {ram_data[0]}GB ({int((ram_data[1]/ram_data[0])*100)}%)
+RAM usage: {ram_data[1]}GB / {ram_data[0]}GB ({((ram_data[1]/ram_data[0])*100):.2f}%)
 System time: {time.strftime("%Y-%m-%d %H:%M:%S")}"""
 
+    @staticmethod
+    def specialformat():
+        _r_l_plaintext = Stats.plaintext().splitlines()
+        _modified_lines = []
+        for _t_statline in _r_l_plaintext:
+            _spec_value = ""
+            _spec_type = ""
+            if "%" in _t_statline:
+                _spec_value = extract_percentage(_t_statline)
+                _spec_type = "percentage"
+            _modified_lines.append((_t_statline, _spec_type, _spec_value))
+        return _modified_lines
 
 if __name__ == "__main__":
     # Example usage:

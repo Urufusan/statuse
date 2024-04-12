@@ -24,7 +24,7 @@ def index():
     if "curl" in user_agent or "wget" in user_agent.lower():
         return Stats.plaintext()
     else:
-        return render_template("index.html", stats_plaintext=Stats.plaintext())
+        return render_template("index.html", stats_obj=Stats)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="8008", debug=False)
