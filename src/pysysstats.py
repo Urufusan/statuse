@@ -18,6 +18,7 @@ import time
 import platform
 import psutil
 import re
+import subprocess
 
 _prcentage_pattern = re.compile(r'(\d+\.\d+)%')
 
@@ -122,6 +123,11 @@ System time: {time.strftime("%Y-%m-%d %H:%M:%S")}"""
                 _spec_type = "percentage"
             _modified_lines.append((_t_statline, _spec_type, _spec_value))
         return _modified_lines
+    
+    @staticmethod
+    def popen_spawner(_p_command: list[str] = ["neofetch"]):
+        return subprocess.Popen(_p_command, stdout=subprocess.PIPE)
+
 
 if __name__ == "__main__":
     # Example usage:
