@@ -20,7 +20,8 @@ app = Flask(__name__)
 
 def is_cli_agent(_user_agent: str):
     _user_agent = _user_agent.lower()
-    return "curl" in _user_agent or "wget" in _user_agent
+    # Pretty much all modern web clients use "Mozilla" in their UAS; meanwhile xh, wget, curl don't.
+    return "curl" in _user_agent or "wget" in _user_agent or ('mozilla' not in _user_agent.lower())
 
 @app.route("/", methods=["GET"])
 def index():
