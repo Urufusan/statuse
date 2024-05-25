@@ -37,7 +37,7 @@ def neofetch_stream():
     user_agent = request.headers.get("User-Agent", "")
     
     def _neofetch_inner():
-        proc = Stats.popen_spawner(["neofetch"])
+        proc = Stats.popen_spawner(["neofetch", "--cpu_display", "barinfo"])
         for line in proc.stdout:
             yield line
             # If process is done, break loop
