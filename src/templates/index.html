@@ -12,14 +12,15 @@
   <script>
     var tempError
     function CTXReplace() {
-      var scrollPosition = window.scrollY;
+      var scrollPositionY = window.scrollY;
+      var scrollPositionX = window.scrollX;
       fetch(window.location.href)
         .then(response => response.text())
         // .then(console.log("Refresh..."))
         .then(data => {
           document.documentElement.innerHTML = data;
         })
-        .then(window.scrollTo(0, scrollPosition))
+        .then(window.scrollTo(scrollPositionX, scrollPositionY))
         .catch(error => console.error('Error fetching content:', tempError = error));
       if (typeof tempError === 'undefined') {
         setTimeout(CTXReplace, 2000);
