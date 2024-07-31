@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from functools import lru_cache
 import os
 import time
 import platform
@@ -69,6 +70,7 @@ class OS:
         return len([name for name in os.listdir("/proc") if name.isdigit()])
 
     @staticmethod
+    @lru_cache
     def get_name():
         with open("/etc/os-release", "r") as os_release_file:
             for line in os_release_file:
@@ -78,8 +80,9 @@ class OS:
         return "Unknown"
     
     # /sys/devices/virtual/dmi/id/product_family 
-
+    
     @staticmethod
+    @lru_cache
     def get_board():
         _base_board_name = ""
         try:
