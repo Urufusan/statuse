@@ -28,7 +28,7 @@ def index():
     user_agent = request.headers.get("User-Agent", "")
     user_agent = user_agent.lower()
     if "curl" in user_agent or "wget" in user_agent:
-        return "\n" + Stats.plaintext() + "\n"
+        return Stats.plaintext() + "\n"
     else:
         return render_template("index.html", stats_obj=Stats)
 
