@@ -15,7 +15,7 @@
       var scrollPositionY = window.scrollY;
       var scrollPositionX = window.scrollX;
       fetch(window.location.href)
-        .then(response => response.text())
+        .then(function(response){if(!response.ok){throw new Error("Not 200")}})
         // .then(console.log("Refresh..."))
         .then(data => {
           document.documentElement.innerHTML = data;
