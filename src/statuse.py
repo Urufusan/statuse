@@ -40,9 +40,6 @@ def neofetch_stream():
         proc = Stats.popen_spawner(["neofetch"])
         for line in proc.stdout:
             yield line
-            # If process is done, break loop
-   #         if proc.poll() == 0:
-   #             break
    
     if is_cli_agent(user_agent):
         return Response(_neofetch_inner(), mimetype= 'text/plain')
@@ -57,9 +54,6 @@ def inxi_stream():
         proc = Stats.popen_spawner(["inxi", "-d", "-b"])
         for line in proc.stdout:
             yield line
-            # If process is done, break loop
-   #         if proc.poll() == 0:
-   #             break
    
     if is_cli_agent(user_agent):
         return Response(_streamer_inner(), mimetype= 'text/plain')

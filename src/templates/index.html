@@ -15,13 +15,20 @@
       var scrollPositionY = window.scrollY;
       var scrollPositionX = window.scrollX;
       fetch(window.location.href)
-        .then(function(response){if(response.ok){return response => response.data()}else{throw new Error("Not 200")}})
-        // .then(console.log("Refresh..."))
-        .then(data => {
-          document.documentElement.innerHTML = data;
-        })
-        .then(window.scrollTo(scrollPositionX, scrollPositionY))
-        .catch(error => console.error('Error fetching content:', tempError = error));
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.text();
+      })
+      .then(data => {
+        document.documentElement.innerHTML = data;
+      })
+      .then(() => {
+        window.scrollTo(scrollPositionX, scrollPositionY);
+      })
+      .catch(error => console.error('Error fetching content:', error));
+    
       if (typeof tempError === 'undefined') {
         setTimeout(CTXReplace, 2000);
       }
