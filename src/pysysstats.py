@@ -67,7 +67,7 @@ class CPU:
 class OS:
     @staticmethod
     def processes():
-        return len((name for name in os.listdir("/proc") if name.isdigit()))
+        return len([name for name in os.listdir("/proc") if name.isdigit()])
 
     @staticmethod
     @cache
