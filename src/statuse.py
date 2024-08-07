@@ -23,6 +23,16 @@ def is_cli_agent(_user_agent: str):
     # Pretty much all modern web clients use "Mozilla" in their UAS; meanwhile xh, wget, curl don't.
     return "curl" in _user_agent or "wget" in _user_agent or ('mozilla' not in _user_agent.lower())
 
+
+# This is some quirky 405 overloading I did to obfuscate
+# the fact that /neofetch and /inxi require SPECIAL
+
+@app.errorhandler(404)
+@app.errorhandler(405)
+def method_not_allowed(error):
+    _res = Response("Not found.", 404, mimetype='text/plain')
+    return _res
+
 @app.route("/", methods=["GET"])
 def index():
     user_agent = request.headers.get("User-Agent", "")
@@ -32,7 +42,7 @@ def index():
     else:
         return render_template("index.html", stats_obj=Stats)
 
-@app.route('/neofetch', methods=["GET"])
+@app.route('/neofetch', methods=["SPECIAL"])
 def neofetch_stream():
     user_agent = request.headers.get("User-Agent", "")
     
@@ -42,11 +52,11 @@ def neofetch_stream():
             yield line
    
     if is_cli_agent(user_agent):
-        return Response(_neofetch_inner(), mimetype= 'text/plain')
+        return Response(_neofetch_inner(), mimetype='text/plain')
     else:
         return "I am a teapot", 418
 
-@app.route('/inxi', methods=["GET"])
+@app.route('/inxi', methods=["SPECIAL"])
 def inxi_stream():
     user_agent = request.headers.get("User-Agent", "")
     
@@ -56,7 +66,7 @@ def inxi_stream():
             yield line
    
     if is_cli_agent(user_agent):
-        return Response(_streamer_inner(), mimetype= 'text/plain')
+        return Response(_streamer_inner(), mimetype='text/plain')
     else:
         return "I am a teapot", 418
 
